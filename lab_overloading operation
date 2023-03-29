@@ -1,0 +1,95 @@
+/*11. В программе должны быть перегружены операции:
+Комплексное число	
+Действительная и мнимая части	
+Изменить значение действительной и мнимой частей, 
+определить модуль	Унарный – (поменять знак каждой части), бинарный + */
+
+#include <iostream>
+#include <math.h>
+using namespace std;
+template<class A>
+class Complex_chislo
+    {     
+        public:
+        A mnim,deist;
+        void print();
+        Complex_chislo(A m, A d);
+        A Izmen_znach(A m, A n);
+        A Modul();
+
+        template <class T>
+        friend Complex_chislo<T>& operator -(Complex_chislo<T>&);
+    
+        template <class T>
+        friend Complex_chislo<T>& operator +(Complex_chislo<T>&, T);
+    };
+
+
+     template <class A>
+    Complex_chislo<A>::Complex_chislo(A m, A d)
+    {
+        mnim=m;
+        deist=d;
+    }
+    
+    template <class T>
+    void Complex_chislo<T>::print()
+    {
+        deist>0?cout<<mnim<<" + "<<deist<<'i'<<endl:cout<<mnim<<" "<<deist<<'i'<<endl;
+    }
+    
+    template <class T>
+    T Complex_chislo<T>::Izmen_znach(T m, T n)
+    {
+        Complex_chislo::mnim=m;
+        Complex_chislo::deist=n;
+        
+    }
+    
+    template <class S>
+    S Complex_chislo<S>::Modul()
+    {
+        return sqrt(pow(deist,2)+pow(mnim,2));;
+    }
+    
+    template<class T>
+    Complex_chislo<T>& operator -(Complex_chislo<T>& c)
+    {
+        c.mnim=-c.mnim;
+        c.deist=-c.deist;
+        
+        return c;
+    }
+    
+    template<class T>
+    Complex_chislo<T>& operator +(Complex_chislo<T>& chislo, T boom)
+    {
+        chislo.mnim+=boom;
+        chislo.deist+=boom;
+        
+        return chislo;
+    }
+    
+ 
+int main()
+{
+  setlocale(0,"RUS");
+
+Complex_chislo<double> chislo(2,5);
+
+cout<<"\nИзначальное значение: ";
+chislo.print();
+ 
+cout<<"Изменить значение действительной и мнимой частей: ";
+chislo.Izmen_znach(5.0,3.6);
+chislo.print();
+cout<<"Модуль: "<<chislo.Modul()<<endl;
+chislo.print();
+ 
+-chislo;
+chislo.print();
+chislo+2.0;
+chislo.print();
+ cout<<"\n";
+return 0 ;
+}
